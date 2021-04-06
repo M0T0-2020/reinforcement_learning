@@ -157,7 +157,7 @@ def optimize_nn_nSplit_sam(batch, model, optimizer, gamma, device, step=0):
         value_advantages = expected_state_action_values - out_values
         return_advantages = expected_state_action_returns - returns
 
-        advantages = 2*value_advantages + return_advantages
+        advantages = 3*value_advantages + return_advantages
         actor_loss = -(log_probs * advantages.detach()).squeeze(1)
         critic_value_loss = F.mse_loss(out_values, expected_state_action_values, reduction='none').squeeze(1)
         critic_return_loss = F.smooth_l1_loss(returns, expected_state_action_returns, reduction='none').squeeze(1)
@@ -190,7 +190,7 @@ def optimize_nn_nSplit_sam(batch, model, optimizer, gamma, device, step=0):
             # second forward-backward pass
             optimizer.second_step(zero_grad=True)
 
-    loss_priority = losses['actor_loss']+losses['critic_value_loss']+losses["critic_return_loss"]
+    loss_priority = torch.sigmoid(losses['actor_loss'])+losses['critic_value_loss']+losses["critic_return_loss"]
     loss_priority = loss_priority.detach().cpu().tolist()
 
     model = model.to('cpu')
