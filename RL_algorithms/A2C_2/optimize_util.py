@@ -181,9 +181,9 @@ def optimize_nn_nSplit_sam(batch, model, optimizer, gamma, device, step=0):
             if key=='entropy':
                 c = c**step 
             loss += c*(weight*loss_value).mean()
-        
+            
+        loss.backward()
         if i==0:
-            loss.backward()
             torch.nn.utils.clip_grad_norm_(model.parameters(), 1)
             optimizer.first_step(zero_grad=True)
         if i==1:
