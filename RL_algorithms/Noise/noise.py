@@ -68,7 +68,7 @@ def ddpg_distance_metric(batch, policy_actor, perturb_actor, device):
 
     diff = action_1.detach().cpu().numpy()-action_2.detach().cpu().numpy()
     mean_diff = np.mean(diff**2, axis=0)
-    distance = sqrt(np.mean(mean_diff))
+    distance = np.sqrt(np.mean(mean_diff))
     policy_actor = policy_actor.to('cpu')
     perturb_actor = perturb_actor.to('cpu')
     return distance
@@ -84,7 +84,7 @@ def ddpg_distance_metric(batch, policy_actor, perturb_actor, device):
 
     diff = action_1.detach().numpy()-action_2.detach().numpy()
     mean_diff = np.mean(diff**2, axis=0)
-    distance = np.sqrt(np.mean(mean_diff))
+    distance = sqrt(np.mean(mean_diff))
     policy_actor = policy_actor.to('cpu')
     return distance
 """

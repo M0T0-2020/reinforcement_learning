@@ -14,7 +14,7 @@ import seaborn as sns
 import random
 from collections import namedtuple
 
-from models import DQN
+from models import Model
 from optimize_util import init_opmtimistic, optimize_nn_nSplit, optimize_nn_nSplit_sam
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from Batcher.Batcher import Batcher
@@ -50,7 +50,7 @@ class Agent:
             #self.optimize_nn = optimize_nn
             None
 
-        self.model = DQN(input_size=input_size, output_size=self.action_space, hidden_layers=hidden_layers)
+        self.model = Model(input_size=input_size, output_size=self.action_space, hidden_layers=hidden_layers)
 
         self.sam = sam
         if sam:
@@ -87,13 +87,3 @@ class Agent:
         m = Categorical(logits=actions)
         action = m.sample()[0]
         return int(action)
-        
-    def get_action(self, next_state):
-        eps_threshold = self.eps_end + (self.eps_start - self.eps_end) *  np.exp(-1. * self.steps / self.eps_decay)
-        #eps_threshold = self.epsilon
-        if np.random.rand() > eps_threshold:
-            action = self.get_action(next_state)
-        else:
-            action = np.random.randint(self.action_space)
-        self.steps+=1
-        return action

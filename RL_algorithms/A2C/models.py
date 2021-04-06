@@ -3,7 +3,7 @@ from torch import nn
 from torch import optim
 from torch import cuda
 
-class DQN(torch.nn.Module):
+class Model(torch.nn.Module):
     def __init__(self, input_size, output_size, hidden_layers):
         super().__init__()
         self.fc = nn.Sequential(

@@ -14,7 +14,7 @@ import seaborn as sns
 import random
 from collections import namedtuple
 
-from models import DQN
+from models import Model
 from optimize_util import optimize_nn, init_opmtimistic, optimize_nn_nSplit
 sys.path.append('/Users/kanoumotoharu/Desktop/machine_learning/強化学習/実験コード/RL_algorithms/batcher/')
 from Batcher import Batcher
@@ -45,7 +45,7 @@ class Agent:
         else:
             self.optimize_nn = optimize_nn
 
-        self.model = DQN(input_size=input_size, output_size=self.action_space, hidden_layers=hidden_layers)
+        self.model = Model(input_size=input_size, output_size=self.action_space, hidden_layers=hidden_layers)
             
         self.optimizer = optim.Adam(self.model.parameters(), lr=self.lr, weight_decay=weight_decay)
         
